@@ -1,7 +1,67 @@
 package com.project.code.Controller;
 
+import com.project.code.Model.PlaceOrderRequestDTO;
+import com.project.code.Model.Store;
+import com.project.code.Repo.StoreRepository;
+import com.project.code.Service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/store")
 public class StoreController {
+
+    @Autowired
+    private StoreRepository storeRepository;
+
+    @Autowired
+    private OrderService orderService;
+
+
+    @PostMapping
+    public ResponseEntity<Map<String, Object>> addStore(@RequestBody Store store){
+        Map<String, Object> response = new HashMap<>();
+
+        try{
+            Store newStore = storeRepository.save(store);
+            response.put("message", "New store added with ID:"+ newStore.getId());
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch(Exception e){
+            response.put("message", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("validate/{storeId}")
+    public ResponseEntity<Boolean> validateStore(@PathVariable("storeId") Long storeId){
+        try{
+            boolean response;
+            response = storeRepository.findById(storeId).isPresent();
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }  catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/placeOrder")
+    public ResponseEntity<Map<String, Object>> placeOrder(@RequestBody PlaceOrderRequestDTO placeOrderRequestDTO){
+        Map<String, Object> response = new HashMap<>();
+        try{
+            orderService.saveOrder(placeOrderRequestDTO);
+            response.put("message", "Order placed successfully");
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        }catch(Exception e){
+            response.put("Error", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
 // 1. Set Up the Controller Class:
 //    - Annotate the class with `@RestController` to designate it as a REST controller for handling HTTP requests.
 //    - Map the class to the `/store` URL using `@RequestMapping("/store")`.
