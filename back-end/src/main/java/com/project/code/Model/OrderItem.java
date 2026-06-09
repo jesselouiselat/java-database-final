@@ -1,8 +1,89 @@
 package com.project.code.Model;
 
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+@Table(name = "orderItem")
 public class OrderItem {
 
-// 1. Add 'id' field:
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(targetEntity = OrderDetails.class)
+    @JoinColumn(name = "order_id")
+    @JsonBackReference("order-items")
+    private OrderDetails orderDetails;
+
+    @ManyToOne(targetEntity =  Product.class)
+    @JsonBackReference("product-order-items")
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    @Column(name = "quantity", nullable = false)
+    private Integer quantity;
+
+    @Column(name = "price", nullable = false)
+    private Double price;
+
+    public OrderItem() {
+    }
+
+    public OrderItem(Long id, OrderDetails orderDetails, Product product, Integer quantity, Double price) {
+        this.id = id;
+        this.orderDetails = orderDetails;
+        this.product = product;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public OrderDetails getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(OrderDetails orderDetails) {
+        this.orderDetails = orderDetails;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    // 1. Add 'id' field:
 //    - Type: private Long
 //    - This field will be auto-incremented.
 //    - Use @Id to mark it as the primary key.

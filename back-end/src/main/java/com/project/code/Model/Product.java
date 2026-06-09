@@ -1,9 +1,103 @@
 package com.project.code.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
+
+@Entity
+@Getter
+@Setter
+@Table(name = "product", uniqueConstraints = @UniqueConstraint(columnNames = "sku"))
 public class Product {
 
-// 1. Add 'id' field:
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @NotNull(message = "Please enter the product name")
+    @Column(nullable = false, name = "name")
+    private String name;
+
+    @NotNull(message = "Please enter the product category")
+    @Column(nullable = false, name = "category")
+    private String category;
+
+    @NotNull(message = "Please enter the product's price")
+    @Column(nullable = false, name = "price")
+    private Double price;
+
+    @NotNull(message = "Please enter the SKU")
+    @Column(unique = true, nullable = false, name = "sku")
+    private String sku;
+
+    @OneToMany(mappedBy = "product")
+    @JsonManagedReference("inventory-product")
+    private List<Inventory> inventory;
+
+    public Product(long id, String name, String category, Double price, String sku, List<Inventory> inventory) {
+        this.id = id;
+        this.name = name;
+        this.category = category;
+        this.price = price;
+        this.sku = sku;
+        this.inventory = inventory;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
+
+    public List<Inventory> getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(List<Inventory> inventory) {
+        this.inventory = inventory;
+    }
+
+
+    // 1. Add 'id' field:
 //    - Type: private long 
 //    - This field will be auto-incremented.
 //    - Use @Id to mark it as the primary key.

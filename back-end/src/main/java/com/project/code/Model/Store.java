@@ -1,7 +1,37 @@
 package com.project.code.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.List;
+
+@Entity
+@Getter
+@Setter
+@Table(name = "store")
 public class Store {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull(message = "Please enter the store name")
+    @NotBlank(message = "Please enter the store name")
+    @Column(nullable = false, name = "name")
+    private String name;
+
+    @NotNull(message = "Please enter the store's address")
+    @NotBlank(message = "Please enter the store's address")
+    @Column(nullable = false, name = "address")
+    private String address;
+
+    @OneToMany(mappedBy = "store")
+    @JsonBackReference("inventory-store")
+    private List<Inventory> inventory;
 
 // 1. Add 'id' field:
 //    - Type: private long 

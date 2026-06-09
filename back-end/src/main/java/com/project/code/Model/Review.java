@@ -1,8 +1,73 @@
 package com.project.code.Model;
 
+
+import jakarta.validation.constraints.NotNull;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collation = "reviews")
 public class Review {
 
-// 1. Add 'customerId' field:
+    @Id
+    @NotNull(message = "Customer ID cannot be null")
+    private Long customerId;
+    @NotNull(message = "Product ID cannot be null")
+    private Long productId;
+
+    @NotNull(message = "Store ID cannot be null")
+    private Long storeId;
+
+    @NotNull(message = "Please enter your rating from 1 to 5")
+    private Integer rating;
+
+    private String comment;
+
+
+    public Review() {
+    }
+    public long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(long customerId) {
+        this.customerId = customerId;
+    }
+
+    public long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(long productId) {
+        this.productId = productId;
+    }
+
+    public long getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(long storeId) {
+        this.storeId = storeId;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+
+    // 1. Add 'customerId' field:
 //    - Type: private Long
 //    - This field represents the customer who created the review.
 //    - This field cannot be empty, use the @NotNull annotation to enforce this rule.
@@ -28,6 +93,7 @@ public class Review {
 
 // 6. Add validation:
 //    - Apply @NotNull to the customerId, productId, storeId, and rating fields to ensure they are not null.
+
 //    - Example: @NotNull(message = "Customer cannot be null")
 
 // 7. Add @Document annotation:

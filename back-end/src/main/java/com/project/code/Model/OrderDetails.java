@@ -1,9 +1,92 @@
 package com.project.code.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@Entity
+@Getter
+@Setter
+@Table(name = "orderDetails")
 public class OrderDetails {
 
-// 1. Add 'id' field:
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @ManyToOne(targetEntity = Customer.class)
+    @JoinColumn(name = "customer_id")
+    @JsonBackReference("customer-order")
+    private Customer customer;
+
+    @Column(name = "totalPrice")
+    private Double totalPrice;
+
+    @Column(name = "date")
+    private LocalDate date;
+
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonManagedReference("order-items")
+    private List<OrderItem> orderItems;
+
+    public OrderDetails() {
+    }
+
+    public OrderDetails(long id, Customer customer, Double totalPrice, LocalDate date, List<OrderItem> orderItems) {
+        this.id = id;
+        this.customer = customer;
+        this.totalPrice = totalPrice;
+        this.date = date;
+        this.orderItems = orderItems;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+
+    // 1. Add 'id' field:
 //    - Type: private Long 
 //    - This field will be auto-incremented.
 //    - Use @Id to mark it as the primary key.

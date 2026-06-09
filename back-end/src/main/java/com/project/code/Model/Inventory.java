@@ -1,8 +1,76 @@
 package com.project.code.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@Table(name = "inventory", uniqueConstraints = {@UniqueConstraint(name = "uc_store_product", columnNames = {"store_id", "product_id"})})
 public class Inventory {
-   // 1. Add 'id' field:
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @ManyToOne(targetEntity = Product.class)
+    @JsonBackReference("inventory-product")
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    @ManyToOne(targetEntity = Store.class)
+    @JsonBackReference("inventory-store")
+    @JoinColumn(name = "store_id")
+    private Store store;
+
+    @Column(name="stockLevel")
+    private Integer stockLevel;
+
+    public Inventory(long id, Product product, Store store, Integer stockLevel) {
+        this.id = id;
+        this.product = product;
+        this.store = store;
+        this.stockLevel = stockLevel;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
+    public Integer getStockLevel() {
+        return stockLevel;
+    }
+
+    public void setStockLevel(Integer stockLevel) {
+        this.stockLevel = stockLevel;
+    }
+
+    // 1. Add 'id' field:
 //    - Type: private long 
 //    - This field will represent the unique identifier for the inventory entry.
 //    - Use @Id to mark it as the primary key.
