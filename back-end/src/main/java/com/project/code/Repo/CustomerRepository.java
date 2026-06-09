@@ -11,11 +11,8 @@ import java.util.Optional;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
-    public Customer findByEmail(String email);
-
-    public Optional<Customer> findById(Long id);
-
-    public List<Customer> findByName(String name);
+     Customer findByEmail(String email);
+     List<Customer> findByName(String name);
 
 
 // 1. Add the repository interface:

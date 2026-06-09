@@ -1,6 +1,8 @@
 package com.project.code.Service;
 
+import org.springframework.stereotype.Service;
 
+@Service
 public class OrderService {
 // 1. **saveOrder Method**:
 //    - Processes a customer's order, including saving the order details and associated items.
