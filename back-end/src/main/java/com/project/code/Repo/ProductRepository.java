@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Long> {
@@ -24,7 +25,7 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 
     Product findBySku(String sku);
 
-    Product findByName(String name);
+    Optional<Product> findByName(String name);
 
     @Query("SELECT i.product FROM Inventory i WHERE i.store.id = :storeId AND i.product.category = :category")
     List<Product> findByNameLike(@Param("storeId") Long storeId, @Param("category") String category);

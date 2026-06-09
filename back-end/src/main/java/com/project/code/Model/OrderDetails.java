@@ -25,6 +25,13 @@ public class OrderDetails {
     @JsonBackReference("customer-order")
     private Customer customer;
 
+
+    @ManyToOne(targetEntity = Store.class)
+    @JoinColumn(name = "store_id")
+    @JsonBackReference("store-order")
+    private Store store;
+
+
     @Column(name = "totalPrice")
     private Double totalPrice;
 

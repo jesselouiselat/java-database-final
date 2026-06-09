@@ -38,7 +38,7 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<OrderItem> orderItems;
+    private List<OrderDetails> orderDetails;
 
 
     public long getId() {
@@ -73,12 +73,12 @@ public class Customer {
         this.phone = phone;
     }
 
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
+    public List<OrderDetails> getOrderDetails() {
+        return orderDetails;
     }
 
-    public void setOrderItems(List<OrderItem> orderItems) {
-        this.orderItems = orderItems;
+    public void setOrderDetails(List<OrderDetails> orderDetails) {
+        this.orderDetails = orderDetails;
     }
 }
 
