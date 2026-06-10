@@ -6,10 +6,11 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collation = "reviews")
+@Document(collection = "reviews")
 public class Review {
 
     @Id
+    private String id;
     @NotNull(message = "Customer ID cannot be null")
     private Long customerId;
     @NotNull(message = "Product ID cannot be null")
@@ -26,6 +27,15 @@ public class Review {
 
     public Review() {
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public long getCustomerId() {
         return customerId;
     }

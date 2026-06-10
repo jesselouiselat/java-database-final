@@ -38,7 +38,7 @@ public class OrderDetails {
     @Column(name = "date")
     private LocalDate date;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "orderDetails", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonManagedReference("order-items")
     private List<OrderItem> orderItems;
 

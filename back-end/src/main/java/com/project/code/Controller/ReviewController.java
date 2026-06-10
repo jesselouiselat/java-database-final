@@ -26,7 +26,7 @@ public class ReviewController {
     private CustomerRepository customerRepository;
 
 
-    @GetMapping("/{storeId}/{productId")
+    @GetMapping("/{storeId}/{productId}")
     public ResponseEntity<Map<String, Object>> getAllReviews(@PathVariable Long storeId, @PathVariable Long productId) {
         Map<String, Object> response = new HashMap<>();
 

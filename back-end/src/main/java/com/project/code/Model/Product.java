@@ -35,9 +35,12 @@ public class Product {
     @Column(unique = true, nullable = false, name = "sku")
     private String sku;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
     @JsonManagedReference("inventory-product")
     private List<Inventory> inventory;
+
+    public Product() {
+    }
 
     public Product(long id, String name, String category, Double price, String sku, List<Inventory> inventory) {
         this.id = id;
